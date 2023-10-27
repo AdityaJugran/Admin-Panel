@@ -9,12 +9,12 @@ require('./sidebar.php');
     <div class="card my-4">
       <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-          <h6 class="text-white text-capitalize ps-3">Catalog table</h6>
+          <h6 class="text-white text-capitalize ps-3">Material table</h6>
         </div>
       </div>
       <div class="card-body">
         <div class="col-12 p-1 mb-2 text-end">
-          <button class="btn btn-outline-primary btn-sm mb-0" onclick="openAddCatalog()">Add Catalog</button>
+          <button class="btn btn-outline-primary btn-sm mb-0" onclick="openAddCatalog()">Add Material</button>
         </div>
         <hr style="border:1px solid #000" />
         <div class="col-6 p-1 mb-2" id="filterTab">
@@ -26,7 +26,7 @@ require('./sidebar.php');
             </select>
           </div>
           <div class="input-group is-focused input-group-static mb-4 col-6">
-            <label>Category</label>
+            <label>Material Category</label>
             <select class="form-control" id="category" name="category" class="form-control">
               <option value="">All</option>
             </select>
