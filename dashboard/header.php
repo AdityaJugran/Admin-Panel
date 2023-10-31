@@ -26,7 +26,9 @@ if(!isset($_SESSION['isLogin']) || $_SESSION['isLogin']!=1){
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
-  <!-- Nepcha Analytics (nepcha.com) -->
+  <link rel="stylesheet" href="../assets/css/style.css">
+    <!-- Nepcha Analytics (nepcha.com) -->
+    <link rel="stylesheet" href="../assets/css/multi-select.css">
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">

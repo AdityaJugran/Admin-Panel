@@ -1,5 +1,5 @@
 const saveCategory = () => {
-    $("#saveCategory").attr("disabled");
+  $("#saveCategory").attr("disabled");
 
   let id = $("#catId").val();
   let type = "addCategory";
@@ -84,6 +84,21 @@ const fetchCategory = ({ filterHtml = 0 }) => {
           $("#addCategory").html(html);
 
           $("#category").html(alloption + html);
+        }else if (filterHtml == 2) {
+          let settingIds = $("#antiId").val().split(',');
+          retrievedData.forEach((e, i) => {
+            let selected = "";
+            if(settingIds.includes(e.id)){
+              selected = "selected";
+            }
+            html +=
+              `<option value="`+e.id +`" `+selected+`>` +e.catName +`</option>`;
+          });
+          $("#categoryIds").html(html);
+          $('#categoryIds').multiSelect({
+            selectableHeader: "<div class='custom-header'>Categories</div>",
+            selectionHeader: "<div class='custom-header'>Selected Categories</div>",
+          });
         } else {
           retrievedData.forEach((e, i) => {
             html +=
@@ -326,8 +341,8 @@ const deleteLocation = (id) => {
 };
 
 const openAddLocation = () => {
-    $("#saveLocation").removeAttr("disabled");
-    $("input").val("");
+  $("#saveLocation").removeAttr("disabled");
+  $("input").val("");
   $("#LocationForm").modal("show");
   $("#name").val("");
   $("#name").parent().removeClass("is-focused");
@@ -361,7 +376,9 @@ const fetchCatalog = ({ id = 0 }) => {
       if (res.success) {
         let retrievedData = res.data;
 
+        let Sno = 0;
         retrievedData.forEach((e, i) => {
+          Sno++;
           html +=
             `
                         <tr>
@@ -369,7 +386,7 @@ const fetchCatalog = ({ id = 0 }) => {
                         <div class="d-flex px-2 py-1">
                         <div class="d-flex flex-column justify-content-center">
                         <h6 class="mb-0 text-sm">` +
-            e.id +
+            Sno +
             `</h6>
                         </div>
                         </div>
@@ -437,6 +454,8 @@ const fetchCatalog = ({ id = 0 }) => {
       $("#catalogTable").dataTable().fnDestroy();
       $("#catalogBody").html(html);
       $("#catalogTable").DataTable({
+        "aLengthMenu": [ [50,100, 200, 500, -1], [50,100, 200, 500, "All"] ],
+        "iDisplayLength": 100,  
         dom: "lBfrtip", // if you remove this line you will see the show entries dropdown
         buttons: ["excel", "pdf"],
       });
@@ -452,7 +471,7 @@ if ($("#filterTab").length) {
 }
 
 const openAddCatalog = () => {
-    $("#saveCatalog").removeAttr("disabled");
+  $("#saveCatalog").removeAttr("disabled");
   $("input").val("");
   $("#CatalogForm").modal("show");
   $("#addCategory").parent().addClass("is-focused");
@@ -482,7 +501,7 @@ const deleteCatalog = (id) => {
 };
 
 const saveCatalog = () => {
-    $("#saveCatalog").attr("disabled");
+  $("#saveCatalog").attr("disabled");
   let type = "addCatalog";
   let name = $("#catalogName").val();
   let quantity = $("#catalogQuantity").val();
@@ -556,3 +575,269 @@ const editCatalog = (id) => {
     dataType: "json",
   });
 };
+
+
+const openAntibodySave =()=>{
+  $("#saveAntibodies").removeAttr("disabled");
+  $("input").val("");
+  $("#antibodiesForm").modal("show");
+}
+const fetchAntibodiesFromCatalog = (callback) =>{
+  let data = {
+    type: "fetchAntibodiesFromCatalog",
+  };
+  $.ajax({
+    type: "POST",
+    url: "../Backend/index.php",
+    data,
+    success: (res) => {
+      if(res.success){
+        let retrievedData = res.data;
+        let html = '';
+          retrievedData.forEach((e, i) => {
+            html +=
+              `<option value="` +e.id +`">` +e.name +` - ` +e.catalogNumber +`</option>`;
+            });
+            $("#antibodyName").html(html);
+      }else{
+      $("#openAntiBmodal").addClass("disabled");
+        $("#errorIssue").show();
+        $("#errorMessage").html(res.message);
+        setTimeout(()=>{
+          $("#errorIssue").hide();
+        }, 5000);
+      }
+      callback();
+    },
+    dataType: "json",
+  });
+}
+const fetchAntibodies = ({id=0}) =>{
+  let data = {
+    type: "fetchAntibodies",
+    id
+  };
+  $.ajax({
+    type: "POST",
+    url: "../Backend/index.php",
+    data,
+    success: (res) => {
+      let html = '';
+      if(res.success){
+        let retrievedData = res.data;
+
+        let Sno = 0;
+        retrievedData.forEach((e, i) => {
+          Sno++;
+          html +=
+            `
+                        <tr>
+                        <td>
+                        <div class="d-flex px-2 py-1">
+                        <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm">` +
+            Sno +
+            `</h6>
+                        </div>
+                        </div>
+                        </td>
+                        <td>
+                        <p class="text-xs font-weight-bold mb-0">` +
+            e.name +
+            `</p>
+                        </td>
+                        <td>
+                        <p class="text-xs font-weight-bold mb-0">` +
+            e.catalogNumber +
+            `</p>
+                        </td>
+                        <td>
+                        <p class="text-xs font-weight-bold mb-0">` +
+            e.companyName +
+            `</p>
+                        </td>
+                        <td>
+                        <p class="text-xs font-weight-bold mb-0">` +
+            e.rasiedIn +
+            `</p>
+                        </td>
+                        <td>
+                        <p class="text-xs font-weight-bold mb-0">` +
+            e.vailAvailable +
+            `</p>
+                        </td>
+                        <td>
+                        <p class="text-xs font-weight-bold mb-0">` +
+            e.Aliquotes +
+            `</p>
+                        </td>
+                        <td>
+                        <p class="text-xs font-weight-bold mb-0">` +
+            e.workDilution +
+            `</p>
+                        </td>
+                        <td>
+                        <p class="text-xs font-weight-bold mb-0">` +
+            e.Remarks +
+            `</p>
+                        </td>
+                        <td class="align-middle">
+                        <i class="material-icons opacity-10 text-success" onclick="editAntibodies(` +
+            e.id +
+            `)">edit</i>
+                        <i class="material-icons opacity-10 text-danger" onclick="deleteAntiB(` +
+            e.id +
+            `)">delete</i>
+                        </td>
+                        </tr>
+                        `;
+      });
+    }
+      if ("#antibodiesTable".length) {
+        $("#antibodiesTable").dataTable().fnClearTable();
+        $("#antibodiesTable").dataTable().fnDestroy();
+        $("#tbody").html(html);
+        let table = new DataTable("#antibodiesTable");
+      }
+    },
+    dataType: "json",
+  });
+}
+
+const deleteAntiB = (id) => {
+  if (!confirm("Are you sure?")) {
+    return false;
+  }
+  let data = {
+    type: "deleteAntibodies",
+    id,
+  };
+  $.ajax({
+    type: "POST",
+    url: "../Backend/index.php",
+    data,
+    success: (res) => {
+      if (res.success) {
+        fetchAntibodies({});
+      }
+    },
+    dataType: "json",
+  });
+};
+
+const saveAntibodies = () => {
+  $("#saveAntibodies").attr("disabled");
+  let type = "addAntibodies";
+  let catalogId = $("#antibodyName").val();
+  let rasiedIn = $("#raisedIn").val();
+  let vailAvailable = $("#vail").val();
+  let Aliquotes = $("#aliquotes").val();
+  let workDilution = $("#dilution").val();
+  let Remarks = $("#remarks").val();
+  let antibId = $("#antiId").val()
+  let data = {
+    type,
+    rasiedIn,
+    vailAvailable,
+    Aliquotes,
+    workDilution,
+    Remarks,
+    catalogId,
+    antibId
+  };
+
+  $.ajax({
+    type: "POST",
+    url: "../Backend/index.php",
+    data,
+    success: (res) => {
+      if (res.success) {
+        $("#antibodiesForm").modal("hide");
+        fetchAntibodies({});
+      }
+    },
+    dataType: "json",
+  });
+};
+
+const editAntibodies = (id) => {
+  let data = {
+    type: "fetchAntibodies",
+    id,
+  };
+  $.ajax({
+    type: "POST",
+    url: "../Backend/index.php",
+    data,
+    success: (res) => {
+      $("#antibodiesForm").modal("show");
+      $("#antibodyName").val(res.data[0].catId);
+      $("#raisedIn").val(res.data[0].rasiedIn);
+      $("#vail").val(res.data[0].vailAvailable);
+      $("#aliquotes").val(res.data[0].Aliquotes);
+      $("#dilution").val(res.data[0].workDilution);
+      $("#remarks").val(res.data[0].Remarks);
+      $("#antiId").val(res.data[0].id)
+
+    },
+    dataType: "json",
+  });
+};
+
+if($("#antibodiesTable").length){
+  fetchAntibodiesFromCatalog(()=>{
+    fetchAntibodies({});
+  })
+}
+
+
+const saveSettings = () =>{
+  let catIds = $("#categoryIds").val();
+  catIds = JSON.stringify(catIds);
+  let data = {
+    type: "saveSettings",
+    catIds,
+  };
+  $.ajax({
+    type: "POST",
+    url: "../Backend/index.php",
+    data,
+    success: (res) => {
+      if(res.success){
+        $("#alertSucces").show();
+        setTimeout(()=>{
+          $("#alertSucces").hide();
+        }, 5000);
+      }else{
+        $("#errorIssue").show();
+        setTimeout(()=>{
+          $("#errorIssue").hide();
+        }, 5000);
+      }
+    },
+    dataType: "json",
+  });
+}
+
+const fetchSetting = (callback) =>{
+  let data = {
+    type: "fetchSetting"
+  };
+  $.ajax({
+    type: "POST",
+    url: "../Backend/index.php",
+    data,
+    success: (res) => {
+      if(res.success){
+        $("#antiId").val(res.data[0].categoryIds);
+        callback();
+      }
+    },
+    dataType: "json",
+  });
+}
+if($("#categoryIds").length){
+  fetchSetting(() => {
+    fetchCategory({ filterHtml: 2 });
+  });
+}

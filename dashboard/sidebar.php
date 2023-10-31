@@ -34,6 +34,22 @@
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link text-white" href="./viewAntibodies.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">colorize</i>
+            </div>
+            <span class="nav-link-text ms-1">Antibodies<span class="badge badge-pill bg-gradient-primary">New</span></span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="./setting.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">settings</i>
+            </div>
+            <span class="nav-link-text ms-1">Settings<span class="badge badge-pill bg-gradient-primary">New</span></span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link text-white " href="./logout.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">logout</i>

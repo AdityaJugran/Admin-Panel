@@ -91,8 +91,31 @@ switch ($type) {
         break;
     case 'addCatalog':
         # add catalog from datatable
-        // $id = $_POST['id'];
         $data = addCatalog($_POST);
+        break;
+    case 'saveSettings':
+        # add setting from datatable
+        $data = saveSettings($_POST);
+        break;
+    case 'fetchSetting':
+        # fetch setting from datatable
+        $data = fetchSetting();
+        break;
+    case 'fetchAntibodiesFromCatalog':
+        $data = fetchAntibodiesFromCatalog();
+        break;
+    case 'fetchAntibodies':
+        $id = $_POST['id'];
+        $data = fetchAntibodies($id);
+        break;
+    case 'deleteAntibodies':
+        # delete antibodies from datatable
+        $id = $_POST['id'];
+        $data = deleteAntibodies($id);
+        break;
+    case 'addAntibodies':
+        # add antibodies from datatable
+        $data = addAntibodies($_POST);
         break;
     default:
         # code...
@@ -171,6 +194,43 @@ function deleteCatalog($id){
 function addCatalog($post){
     global $model;
     $data = $model->addCatalog($post);
+    return $data;
+}
+
+function saveSettings($post){
+    global $model;
+    $catIds = implode(",",json_decode($post['catIds']));
+    $data = $model->saveSettings($catIds);
+    return $data;
+}
+
+function fetchSetting(){
+    global $model;
+    $data = $model->fetchSetting();
+    return $data;
+}
+
+function fetchAntibodiesFromCatalog(){
+    global $model;
+    $data = $model->fetchAntibodiesFromCatalog();
+    return $data;
+}
+
+function fetchAntibodies($id){
+    global $model;
+    $data = $model->fetchAntibodies($id);
+    return $data;
+}
+
+function deleteAntibodies($id){
+    global $model;
+    $data = $model->deleteAntibodies($id);
+    return $data;
+}
+
+function addAntibodies($post){
+    global $model;
+    $data = $model->addAntibodies($post);
     return $data;
 }
 ?>
