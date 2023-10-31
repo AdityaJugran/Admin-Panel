@@ -400,8 +400,10 @@ class Model
     public function fetchAntibodies($id)
     {
         $conn = OpenCon();
-        $sql = "SELECT antiB.id,cat.id as catId,cat.`name`,cat.`catalogNumber`,cat.`companyName`,antiB.rasiedIn,antiB.vailAvailable,antiB.Aliquotes,antiB.workDilution,antiB.Remarks FROM `catalog` as cat
-        INNER JOIN `antibodiesLog` as antiB On antiB.catalogId = cat.id WHERE `categoryId` IN (Select setting.categoryIds FROM `setting` WHERE `setting`.`id`='1') AND antiB.status = '1'";
+        $sql = "SELECT antiB.id,cat.id as catId,cat.`name`,cat.`catalogNumber`,cat.`companyName`,loc.`locName` as location,cat.subLocation,antiB.rasiedIn,antiB.vailAvailable,antiB.Aliquotes,antiB.workDilution,antiB.Remarks FROM `catalog` as cat
+        INNER JOIN `antibodiesLog` as antiB On antiB.catalogId = cat.id 
+        INNER JOIN location as loc ON loc.id = cat.locationId
+        WHERE `categoryId` IN (Select setting.categoryIds FROM `setting` WHERE `setting`.`id`='1') AND antiB.status = '1'";
         if (!empty($id)) {
             $sql .= " AND antiB.id ='" . $id . "'";
         }

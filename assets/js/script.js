@@ -653,6 +653,16 @@ const fetchAntibodies = ({id=0}) =>{
                         </td>
                         <td>
                         <p class="text-xs font-weight-bold mb-0">` +
+            e.location +
+            `</p>
+                        </td>
+                        <td>
+                        <p class="text-xs font-weight-bold mb-0">` +
+            e.subLocation +
+            `</p>
+                        </td>
+                        <td>
+                        <p class="text-xs font-weight-bold mb-0">` +
             e.companyName +
             `</p>
                         </td>
